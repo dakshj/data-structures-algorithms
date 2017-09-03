@@ -16,6 +16,7 @@ private class MergeIntervals {
                     start = first().first
                     end = first().second
                 }
+                .drop(1)
                 .forEach {
                     // If the current interval's start Int is within the range of the interval-being-built
                     if (it.first <= end) {
