@@ -7,9 +7,17 @@ private class ReverseLinkedListInConstantSpace<T> {
         var prevTemp: Node<T>? = null
 
         while (cur != null) {
+            // Save cur to a temporary var
             nextTemp = cur.next
+
+            // Point cur's next to the previous node (thus reversing the direction)
             cur.next = prevTemp
+
+            // Make cur as prevTemp, so that it can be used in the next iteration
+            // for the new cur's next to be set to prevTemp
             prevTemp = cur
+
+            // Increment cur to the original next pointer
             cur = nextTemp
         }
 
