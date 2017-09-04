@@ -1,48 +1,52 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by daksh on 08-Oct-16.
- */
 public class ThreeSum {
 
     public static void main(String[] args) {
-        new ThreeSum().printThreeSum(new int[]{5, 3, -5, 0, 1, -1, -1, -7, 2});
+        System.out.println(new ThreeSum().threeSum(new int[]{5, 3, -5, 0, 1, -1, -1, -7, 2}));
     }
 
-    private void printThreeSum(int[] array) {
-        Arrays.sort(array);
+    private List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
 
-        ArrayList<ArrayList<Integer>> pointsList = new ArrayList<>();
-        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        // Since 3 elements are required
+        if (nums == null || nums.length < 3) return result;
 
-        for (int i = 0; i < array.length; i++) {
+        final int length = nums.length;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < length - 2; i++) {
             map.clear();
 
-            for (int j = i + 1; j < array.length; j++) {
-                if (map.containsKey(array[j])) {
-                    ArrayList<Integer> points = new ArrayList<>();
-                    points.add(array[j]);
-                    points.addAll(map.get(array[j]));
+            // Either we are at the 0th element, or the current element is != previous
+            if (i == 0 || nums[i] != nums[i - 1]) {
+                for (int j = i + 1; j < length; j++) {
+                    List<Integer> points = new ArrayList<>();
+                    if (map.containsKey(nums[j])) {
+                        points.add(nums[j]);
+                        points.addAll(map.get(nums[j]));
 
-                    Collections.sort(points);
+                        result.add(points);
 
-                    if (!pointsList.contains(points)) {
-                        pointsList.add(points);
+                        // To ****avoid duplicates**** being added to the list,
+                        // we increment j so that it is now at a position where the
+                        // jth element != {j-1}th element
+                        while (j < (length - 1) && nums[j] == nums[j + 1]) j++;
+                    } else {
+                        points.add(nums[i]);
+                        points.add(nums[j]);
+                        map.put(0 - (nums[i] + nums[j]), points);
                     }
-                } else {
-                    ArrayList<Integer> points = new ArrayList<>();
-                    points.add(array[i]);
-                    points.add(array[j]);
-                    map.put(-array[i] - array[j], points);
                 }
             }
         }
 
-        for (ArrayList<Integer> points : pointsList) {
-            System.out.println(Arrays.toString(points.toArray()));
-        }
+        return result;
     }
 }
