@@ -1,4 +1,4 @@
-private class RemoveInvalidParantheses {
+private class RemoveInvalidParentheses {
 
     fun remove(input: String): List<String> {
         val result = mutableListOf<String>()
@@ -49,5 +49,5 @@ private class RemoveInvalidParantheses {
 }
 
 fun main(args: Array<String>) {
-    println(RemoveInvalidParantheses().remove("((a)(b)"))
+    println(RemoveInvalidParentheses().remove("((a)(b)"))
 }
