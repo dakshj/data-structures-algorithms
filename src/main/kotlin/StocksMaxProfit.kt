@@ -50,6 +50,7 @@ private class StocksMaxProfit {
 
     fun getForKTrades(prices: List<Int>, k: Int): Int {
         TODO("not implemented")
+        // http://www.geeksforgeeks.org/maximum-profit-by-buying-and-selling-a-share-at-most-k-times/
     }
 }
 
