@@ -24,7 +24,7 @@ private class PhoneKeypadCombinations {
             return
         }
 
-        digitsToLettersMap[Character.getNumericValue(digits[0])]?.forEach {
+        digitsToLettersMap[Character.getNumericValue(digits[0])]!!.forEach {
             get(digits.substring(1 until digits.length), prefix + it, list)
         }
     }
