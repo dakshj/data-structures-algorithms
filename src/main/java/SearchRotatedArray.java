@@ -44,7 +44,7 @@ public class SearchRotatedArray {
             } else {
                 int result = search(a, x, left, mid - 1);
 
-                return result == 1 ? search(a, x, mid + 1, right) : result;
+                return result == -1 ? search(a, x, mid + 1, right) : result;
             }
         }
 
