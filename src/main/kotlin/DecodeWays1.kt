@@ -10,7 +10,7 @@ private class DecodeWays1 {
         val memo = IntArray(size = n + 1)
 
         memo[n] = 1
-        memo[n - 1] = if (s.last() != '0') 1 else 0
+        memo[n - 1] = if (s[n - 1] != '0') 1 else 0
 
         // Iterate from 2nd last to first index
         (n - 2 downTo 0)
