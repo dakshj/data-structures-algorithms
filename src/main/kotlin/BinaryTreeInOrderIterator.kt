@@ -19,17 +19,13 @@ private class BinaryTreeInOrderIterator<T>(private var node: Node<T>?) : Iterato
         if (!hasNext()) throw NoSuchElementException()
 
         val temp = stack.pop()
-        node = temp
+        node = temp.right
 
         // Going to the right subtree of this node, since it is an In-order Traversal
-        if (node!!.right != null) {
-            node = node!!.right;
-
-            // Same as in init block
-            while (node != null) {
-                stack.push(node)
-                node = node!!.left
-            }
+        // Same as in init block
+        while (node != null) {
+            stack.push(node)
+            node = node!!.left
         }
 
         return temp
