@@ -32,4 +32,4 @@ fun main(args: Array<String>) {
     println(SecondLargestValue().get(setOf(1, 2, 3, 4, 5)))
 }
 
-private infix fun Int.between(pair: Pair<Int, Int>) = this in (pair.first + 1) until pair.second
+private infix fun Int.between(pair: Pair<Int, Int>) = this > pair.first && this < pair.second
