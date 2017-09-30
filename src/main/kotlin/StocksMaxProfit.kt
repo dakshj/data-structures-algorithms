@@ -17,8 +17,7 @@ private class StocksMaxProfit {
     fun getForTwoTrades(stocks: List<Int>): Int {
         if (stocks.size <= 1) return 0
 
-        val gains = mutableListOf<Int>()
-        stocks.forEach { gains.add(0) }
+        val gains = IntArray(stocks.size)
 
         // Initialized to last element, because we will be skipping
         // the last element in the below iteration
