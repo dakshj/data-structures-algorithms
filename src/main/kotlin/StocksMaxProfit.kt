@@ -6,8 +6,6 @@ private class StocksMaxProfit {
         var maxStock = Int.MIN_VALUE
         var maxGain = Int.MIN_VALUE
 
-        stocks.asReversed()
-
         stocks.reversed().forEach {
             maxStock = maxOf(maxStock, it)
             maxGain = maxOf(maxGain, maxStock - it)
