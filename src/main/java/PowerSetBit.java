@@ -37,7 +37,7 @@ public class PowerSetBit {
         int index = 0;
 
         while (n > 0) {
-            // Check if the left-most bit is a 1
+            // Check if the right-most bit is a 1
             if ((n & 1) == 1) {
                 subSet.add(set.get(index));
             }
