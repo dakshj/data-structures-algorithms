@@ -16,11 +16,18 @@ private class CoolDownTime {
 
                 var charsInBetweenTwoOccurrences = i - lastOccurrence!! - 1
 
-                // Add all previously added dashes between these two occurrences to the
-                // amount of chars in between these two occurrences
-                for (j in lastOccurrence + 1 until i) {
-                    if (dashesBefore.containsKey(j)) {
-                        charsInBetweenTwoOccurrences += dashesBefore[j]!!
+                // Only if the chars in between do not cross the threshold of cooldown,
+                // we try to increase this threshold by counting all the dashes previously
+                // added to the chars in between. Thus, this *may* make the amount of chars in
+                // between cross the threshold of coolDown.
+                if (charsInBetweenTwoOccurrences < coolDown) {
+
+                    // Add all previously added dashes between these two occurrences to the
+                    // amount of chars in between these two occurrences
+                    for (j in lastOccurrence + 1 until i) {
+                        if (dashesBefore.containsKey(j)) {
+                            charsInBetweenTwoOccurrences += dashesBefore[j]!!
+                        }
                     }
                 }
 
