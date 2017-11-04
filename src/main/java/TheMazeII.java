@@ -1,13 +1,15 @@
 import java.awt.Point;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class TheMaze {
+import javafx.util.Pair;
 
-    private boolean hasPath(final int[][] maze, final int[] s, final int[] d) {
+class TheMazeII {
+
+    private int shortestDistance(final int[][] maze, final int[] s, final int[] d) {
         if (maze == null || maze.length == 0 || maze[0].length == 0) {
-            return false;
+            return -1;
         }
 
         final int rows = maze.length;
@@ -17,7 +19,14 @@ class TheMaze {
         final Point dest = new Point(d[0], d[1]);
 
         // Base case
-        if (start.equals(dest)) return true;
+        if (start.equals(dest)) return 0;
+
+        final int[][] dp = new int[rows][cols];
+
+        // Init dp to have all values set as Integer.MAX_VALUE
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
 
         final Point[] directions = new Point[]{
                 new Point(-1, 0),   // Up
@@ -26,21 +35,19 @@ class TheMaze {
                 new Point(0, 1)     // Right
         };
 
-        final HashSet<Point> visited = new HashSet<>();
+        // Queue which holds a Point vs. its length
+        final Queue<Pair<Point, Integer>> queue = new LinkedList<>();
 
-        final Queue<Point> queue = new LinkedList<>();
-
-        visited.add(start);
-
-        queue.add(start);
+        queue.add(new Pair<>(start, 0));
 
         while (!queue.isEmpty()) {
-            final Point originalPoint = queue.remove();
+            final Pair<Point, Integer> pair = queue.remove();
 
             // Do a simultaneous DFS in all four directions of each point removed from the queue
             for (final Point direction : directions) {
                 // Use a copy of the point for translating this point later on, **not the original**
-                final Point point = (Point) originalPoint.clone();
+                final Point point = (Point) pair.getKey().clone();
+                int length = pair.getValue();
 
                 while (point.x >= 0 && point.x < rows &&  // while x is in range AND
                         point.y >= 0 && point.y < cols && // while y is in range AND
@@ -50,31 +57,33 @@ class TheMaze {
                     // Note that our coordinates will be of the obstacle or out of range,
                     // so we need to back up!
                     point.translate(direction.x, direction.y);
+                    length++;
                 }
 
                 // Back up by one point, since we have hit an obstacle or are out of range
                 point.translate(-direction.x, -direction.y);
+                length--;
 
-                // If this point has been visited before from some other directional DFS,
-                // then no need to do a DFS again on it (in the later code below.
-                if (visited.contains(point)) {
+                // If this length is more than an already known lesser length to
+                // reach the destination, then just don't proceed forward with the DFS later below.
+                if (length > dp[dest.x][dest.y]) {
                     continue;
                 }
 
-                // Else, mark this point as visited,
-                // and if not at the destination, do a DFS in the next queue round.
-                visited.add(point);
-
-                if (point.equals(dest)) {
-                    // We were able to reach the destination
-                    return true;
+                // If this length is more optimized to reach the same point (x,y),
+                // then update dp, and also put it in the queue as an updated (x,y) vs. length Pair.
+                if (length < dp[point.x][point.y]) {
+                    dp[point.x][point.y] = length;
+                    queue.add(new Pair<>(point, length));
                 }
-
-                // If not yet at the destination, add this point to the queue for further DFS
-                queue.add(point);
             }
         }
 
-        return false;
+        // Finally, if there is an answer, it is stored in the destination's (x,y) coordinate
+        if (dp[dest.x][dest.y] != Integer.MAX_VALUE) {
+            return dp[dest.x][dest.y];
+        } else {
+            return -1;
+        }
     }
 }
