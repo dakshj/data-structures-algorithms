@@ -1,11 +1,11 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LruCacheShort<K, V> extends LinkedHashMap<K, V> {
+public class LRUCacheShort<K, V> extends LinkedHashMap<K, V> {
 
     private final int capacity;
 
-    public LruCacheShort(final int capacity) {
+    public LRUCacheShort(final int capacity) {
         super(capacity, 0.75f, true);
         this.capacity = capacity;
     }
